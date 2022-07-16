@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { fetchWeather } from '../../api/fetchWeather';
+import './index.css';
 
 const App = () => {
+  let dateObject = {};
+
   const [query, setQuery] = useState('');
   const [temp, setTemp] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [sunRise, setSunRise] = useState('');
   const [sunSet, setSunSet] = useState('');
-  //   const [timeZone, setTimeZone] = useState('');
+  const [description, setDesciption] = useState('');
+  const [windSpeed, setWindSpeed] = useState('');
+  const [humidity, setHumidity] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -20,27 +25,30 @@ const App = () => {
       setTemp(data.main.temp);
       setCity(data.name);
       setCountry(data.sys.country);
-      setSunRise(data.sys.sunrise);
-      setSunSet(data.sys.sunset);
-      //   setTimeZone(data.timezone);
+      setSunRise(JSON.stringify(new Date(data.sys.sunrise * 1000)));
+      setSunSet(JSON.stringify(new Date(data.sys.sunset * 1000)));
+      setDesciption(data.weather[0].description);
+      setWindSpeed(data.wind.speed);
+      setHumidity(data.main.humidity);
       console.log(data);
+      document.getElementById('cardwidth').style.opacity = 1;
       setQuery('');
     }
   };
 
   return (
     <div className="main">
-      <section>
+      <section className="title">
         <div className="row">
           <div className="col">
             <center>
-              <h1>Lookup the Weather App</h1>
-              <p>Search for weather around the globe ... </p>
+              <h1>React Weather API App</h1>
+              <p className="motto">Lets see what today's weather like ... </p>
             </center>
           </div>
         </div>
       </section>
-      <section>
+      <section className="sandraColor">
         <div className="row">
           <div className="col">
             <center>
@@ -50,8 +58,10 @@ const App = () => {
                   className="search-input"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="type city name to see weather ..."
+                  placeholder="Enter a city name to see its weather ..."
                 />
+                <br />
+                <br />
                 <button type="submit" className="search-btn">
                   Search
                 </button>
@@ -60,19 +70,24 @@ const App = () => {
           </div>
         </div>
       </section>
-      <section>
-        <center>
-          <h2>Country: {country}</h2>
-          <h3>City: {city}</h3>
-          <h4>
-            Tempreture: {temp}{' '}
-            <span>
-              <sup> &#x2109;</sup>
-            </span>
-          </h4>
-          <p>Sunrise: {sunRise} </p>
-          <p>Sunset: {sunSet} </p>
-        </center>
+      <section id="cardwidth" className="container card cardwidth">
+        <h3>
+          City: {city}{' '}
+          <span>
+            <sup>Country Code: {country}</sup>
+          </span>
+        </h3>
+        <h4>
+          Tempreture: {temp}{' '}
+          <span>
+            <sup> &#x2109;</sup>
+          </span>
+        </h4>
+        <h5>Humidity: {humidity}</h5>
+        <p>Description: {description}</p>
+        <p>Wind Speed: {windSpeed} Knots</p>
+        <p>Sunrise: {sunRise} </p>
+        <p>Sunset: {sunSet} </p>
       </section>
     </div>
   );
