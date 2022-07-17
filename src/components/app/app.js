@@ -3,7 +3,7 @@ import { fetchWeather } from '../../api/fetchWeather';
 import './index.css';
 
 const App = () => {
-  let dateObject = {};
+  // let dateObject = {};
 
   const [query, setQuery] = useState('');
   const [temp, setTemp] = useState('');
@@ -20,6 +20,9 @@ const App = () => {
 
     if (query.length === 0) {
       console.log('please enter a city to search for the weather ....');
+      document.getElementById('error').innerText =
+        'Please type name of a city then hit search';
+      document.getElementById('error').style.display = 'block';
     } else {
       const data = await fetchWeather(query);
       setTemp(data.main.temp);
@@ -33,6 +36,7 @@ const App = () => {
       console.log(data);
       document.getElementById('cardwidth').style.opacity = 1;
       setQuery('');
+      document.getElementById('error').style.display = 'none';
     }
   };
 
@@ -66,6 +70,7 @@ const App = () => {
                   Search
                 </button>
               </form>
+              <label id="error"></label>
             </center>
           </div>
         </div>

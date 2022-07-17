@@ -93,3 +93,8 @@ sup {
 .cardwidth h5 {
   color: #222;
 }
+
+#error {
+  margin-top: 25px;
+  color: #f2e3d5;
+}
