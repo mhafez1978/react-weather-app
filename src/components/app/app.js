@@ -14,6 +14,7 @@ const App = () => {
   const [description, setDesciption] = useState('');
   const [windSpeed, setWindSpeed] = useState('');
   const [humidity, setHumidity] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -37,6 +38,9 @@ const App = () => {
       document.getElementById('cardwidth').style.opacity = 1;
       setQuery('');
       document.getElementById('error').style.display = 'none';
+      setImgUrl(
+        `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+      );
     }
   };
 
@@ -76,19 +80,25 @@ const App = () => {
         </div>
       </section>
       <section id="cardwidth" className="container card cardwidth">
-        <h3>
-          City: {city}{' '}
-          <span>
-            <sup>Country Code: {country}</sup>
-          </span>
-        </h3>
-        <h4>
-          Tempreture: {temp}{' '}
-          <span>
-            <sup> &#x2109;</sup>
-          </span>
-        </h4>
-        <h5>Humidity: {humidity}</h5>
+        <h3>City: {city} </h3>
+        <h4>Country Code: {country}</h4>
+        <tr>
+          <td>
+            <h4>
+              Tempreture: {temp}{' '}
+              <span>
+                <sup> &#x2109;</sup>
+              </span>
+            </h4>
+            <h5>Humidity: {humidity}</h5>
+          </td>
+          <td>
+            <p>
+              <img src={imgUrl} alt="weather impressions" />
+            </p>
+          </td>
+        </tr>
+
         <p>Description: {description}</p>
         <p>Wind Speed: {windSpeed} Knots</p>
         <p>Sunrise: {sunRise} </p>
